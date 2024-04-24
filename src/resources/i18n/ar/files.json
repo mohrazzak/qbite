@@ -1,0 +1,10 @@
+{
+  "logoFile": {
+    "definite": "الشعار",
+    "indefinite": "شعار"
+  },
+  "productImages": {
+    "definite": "صور المنتج",
+    "indefinite": "صور منتج"
+  }
+}

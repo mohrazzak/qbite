@@ -1,0 +1,84 @@
+{
+  "StoreOwner": {
+    "definite": {
+      "plural": "the users",
+      "singular": "the user"
+    },
+    "indefinite": { "plural": "users", "singular": "user" }
+  },
+  "Store": {
+    "definite": {
+      "plural": "the stores",
+      "singular": "the store"
+    },
+    "indefinite": { "plural": "stores", "singular": "store" }
+  },
+  "Subscription": {
+    "definite": {
+      "plural": "The subscriptions",
+      "singular": "The subscription"
+    },
+    "indefinite": { "plural": "subscriptions", "singular": "subscription" }
+  },
+  "Translation": {
+    "definite": {
+      "plural": "the translations",
+      "singular": "the translation"
+    },
+    "indefinite": { "plural": "translations", "singular": "translation" }
+  },
+  "PlanVersion": {
+    "definite": {
+      "plural": "The plans",
+      "singular": "The plan"
+    },
+    "indefinite": { "plural": "plans", "singular": "plan" }
+  },
+  "Category": {
+    "definite": {
+      "plural": "The categories",
+      "singular": "The category"
+    },
+    "indefinite": { "plural": "categories", "singular": "category" }
+  },
+  "Currency": {
+    "definite": {
+      "plural": "Currencies",
+      "singular": "Currency"
+    },
+    "indefinite": {
+      "plural": "Currencies",
+      "singular": "Currency"
+    }
+  },
+  "Product": {
+    "definite": {
+      "plural": "Products",
+      "singular": "Product"
+    },
+    "indefinite": {
+      "plural": "Products",
+      "singular": "Product"
+    }
+  },
+  "QrCode": {
+    "definite": {
+      "plural": "QR Codes",
+      "singular": "QR Code"
+    },
+    "indefinite": {
+      "plural": "QR Codes",
+      "singular": "QR Code"
+    }
+  },
+  "SupportTicket": {
+    "definite": {
+      "plural": "Support Tickets",
+      "singular": "Support Ticket"
+    },
+    "indefinite": {
+      "plural": "Support Tickets",
+      "singular": "Support Ticket"
+    }
+  }
+}

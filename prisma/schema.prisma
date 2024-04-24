@@ -1,0 +1,471 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator zod {
+  provider = "nestjs-zod-prisma"
+  output   = "../src/generated/zod"
+
+  relationModel = false // (default) Create and export both plain and related models.
+  // relationModel         = "default" // Do not export model without relations.
+  // relationModel         = false // Do not generate related model
+
+  generateDto = false // (default) Generate DTOs for NestJS
+
+  modelCase = "PascalCase" // (default) Output models using pascal case (ex. UserModel, PostModel)
+  // modelCase             = "camelCase" // Output models using camel case (ex. userModel, postModel)
+
+  modelSuffix = "Schema" // (default) Suffix to apply to your prisma models when naming Zod schemas
+
+  dtoCase = "PascalCase" // (default) Output DTOs using pascal case (ex. UserDto, PostDto)
+  // dtoCase             = "camelCase" // Output DTOs using camel case (ex. userDto, postDto)
+
+  dtoSuffix = "Entity" // (default) Suffix to apply to your prisma models when naming DTOs
+
+  // useDecimalJs          = false // (default) represent the prisma Decimal type using as a JS number
+  useDecimalJs = false // represent the prisma Decimal type using Decimal.js (as Prisma does)
+
+  imports = "../src/generated/zod/schemas"
+
+  // https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-by-null-values
+  prismaJsonNullability = true // (default) uses prisma's scheme for JSON field nullability
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Store {
+  id                    Int     @id @default(autoincrement())
+  username              String  @unique /// @z.custom().and(imports.usernameSchema)
+  phoneNumber           String  @db.VarChar(19)
+  isPhoneNumberVerified Boolean @default(false)
+
+  nameId Int         @unique
+  name   TextContent @relation("store_name", fields: [nameId], references: [id])
+
+  descriptionId Int         @unique
+  description   TextContent @relation("store_description", fields: [descriptionId], references: [id])
+
+  sloganId      Int?         @unique
+  slogan        TextContent? @relation("store_slogan", fields: [sloganId], references: [id])
+  logoURL       String
+  backgroundURL String?
+  visible       Boolean      @default(true)
+  country       String?
+  city          String?
+  openingHours  String
+  closingHours  String
+
+  storeOwner   StoreOwner @relation(fields: [storeOwnerId], references: [id], onDelete: Cascade)
+  storeOwnerId Int
+
+  currency Currency[]
+
+  primaryColor    String
+  secondaryColor  String
+  backgroundColor String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  categories          Category[]
+  socialMediaProfiles SocialMediaProfile[]
+  font                Font?                @relation(fields: [fontId], references: [id], onDelete: SetNull)
+  fontId              Int? /// @z.coerce.number().transform((arg) => (arg === 0 ? undefined : arg))
+  productDetails      ProductDetails[]
+  Product             Product[]
+  QrCode              QrCode?
+  SupportTicket       SupportTicket[]
+
+  @@index([storeOwnerId])
+  @@index([username])
+}
+
+model QrCode {
+  id                         Int           @id @default(autoincrement())
+  storeId                    Int           @unique
+  store                      Store         @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  size                       Int /// @z.coerce.number()
+  hasLogo                    Boolean       @default(false)
+  dotsStyle                  DotType       @default(DOT)
+  dotsColorType              ColorType     @default(SINGLE_COLOR)
+  dotsGradientType           GradientType  @default(LINEAR)
+  dotsColor1                 String
+  dotsColor2                 String
+  cornersSquaresStyle        CornerStyle   @default(SQUARE)
+  cornersSquaresColorType    ColorType     @default(SINGLE_COLOR)
+  cornersSquaresGradientType GradientType  @default(LINEAR)
+  cornersSquaresColor1       String
+  cornersSquaresColor2       String
+  cornersDotsStyle           CornerDotType @default(DOT)
+  cornersDotsColorType       ColorType     @default(SINGLE_COLOR)
+  cornersDotsGradientType    GradientType  @default(LINEAR)
+  cornersDotsColor1          String
+  cornersDotsColor2          String
+  backgroundColorType        ColorType     @default(SINGLE_COLOR)
+  backgroundGradientType     GradientType  @default(LINEAR)
+  backgroundColor1           String
+  backgroundColor2           String
+}
+
+enum DotType {
+  ROUNDED
+  DOT
+  CLASSY
+  CLASSY_ROUNDED
+  SQUARE
+  EXTRA_ROUNDED
+}
+
+enum GradientType {
+  LINEAR
+  RADIAL
+}
+
+enum CornerStyle {
+  DOT
+  SQUARE
+  EXTRA_ROUNDED
+}
+
+enum CornerDotType {
+  DOT
+  SQUARE
+}
+
+enum ColorType {
+  SINGLE_COLOR
+  GRADIENT
+}
+
+model ProductPrices {
+  id         Int      @id @default(autoincrement())
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  currencyId Int
+  currency   Currency @relation(fields: [currencyId], references: [id], onDelete: Cascade)
+  price      Float
+}
+
+model Font {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  store Store[]
+
+  @@index([name])
+}
+
+model SocialMediaProfile {
+  id                    Int                 @id @default(autoincrement())
+  link                  String
+  store                 Store               @relation(fields: [storeId], references: [id])
+  storeId               Int
+  socialMediaPlatform   SocialMediaPlatform @relation(fields: [socialMediaPlatformId], references: [id], onDelete: Cascade)
+  socialMediaPlatformId Int
+}
+
+model SocialMediaPlatform {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  iconURL            String
+  socialMediaProfile SocialMediaProfile[]
+}
+
+model StoreOwner {
+  id                 Int     @id @unique @default(autoincrement())
+  firstName          String? /// @z.string().min(3).max(20).nullable().default("John")
+  role               Role    @default(STORE_OWNER)
+  lastName           String? /// @z.string().min(3).max(20).nullable().default("Doe")
+  password           String /// @z.any().and(imports.passwordSchema)
+  phoneNumber        String? @unique @db.VarChar(20) /// @z.any().and(imports.phoneNumberSchema)
+  email              String  @unique /// @z.any().and(imports.emailSchema)
+  country            String? /// @z.string().min(2).max(20).nullable().default("SY")
+  city               String? /// @z.string().min(2).max(20).nullable().default("Aleppo")
+  signupCode         String /// @z.string().length(4).default('1234')
+  resetPasswordToken String?
+
+  isActive            Boolean @default(false) /// @z.boolean().default(false)
+  isPhoneNumberActive Boolean @default(false) /// @z.boolean().default(false)
+
+  stores        Store[]
+  subscriptions Subscription[]
+
+  lastLogin DateTime? /// @z.date().nullable().default(new Date())
+  createdAt DateTime  @default(now()) /// @z.date().default(new Date())
+  updatedAt DateTime  @default(now()) @updatedAt /// @z.date().default(new Date())
+  deletedAt DateTime? /// @z.date().nullable().default(new Date())
+
+  @@index([phoneNumber])
+  @@index([email])
+}
+
+model Subscription {
+  id           Int @id @default(autoincrement())
+  storeOwnerId Int
+
+  startDate DateTime @default(now())
+  endDate   DateTime
+
+  status   SubscriptionStatus @default(pending)
+  price    Float
+  duration Int
+
+  storeOwner    StoreOwner  @relation(fields: [storeOwnerId], references: [id], onDelete: Cascade)
+  planVersionId Int
+  planVersion   PlanVersion @relation(fields: [planVersionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now()) /// @z.date().default(new Date())
+  updatedAt DateTime  @default(now()) @updatedAt /// @z.date().default(new Date())
+  deletedAt DateTime? /// @z.date().nullable().default(new Date())
+}
+
+model Plan {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  versions  PlanVersion[]
+  createdAt DateTime      @default(now()) /// @z.date().default(new Date())
+  updatedAt DateTime      @default(now()) @updatedAt /// @z.date().default(new Date())
+  deletedAt DateTime? /// @z.date().nullable().default(new Date())
+}
+
+model PlanVersion {
+  id Int @id @default(autoincrement())
+
+  planId  Int
+  version Float
+  plan    Plan  @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  priceForOneMonth    Float
+  priceForThreeMonths Float
+  priceForSixMonths   Float
+  priceForOneYear     Float
+  priceForTwoYears    Float?
+  priceForThreeYears  Float?
+
+  createdAt     DateTime       @default(now()) /// @z.date().default(new Date())
+  updatedAt     DateTime       @default(now()) @updatedAt /// @z.date().default(new Date())
+  deletedAt     DateTime? /// @z.date().nullable().default(new Date())
+  subscriptions Subscription[]
+
+  @@unique([version, planId])
+}
+
+enum SubscriptionStatus {
+  active
+  expired
+  pending
+}
+
+model Currency {
+  id     Int    @id @default(autoincrement())
+  symbol String
+  name   String @unique
+
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now()) @updatedAt
+  deletedAt DateTime?
+  stores    Store[]
+  prices    ProductPrices[]
+
+  @@index([name])
+}
+
+model SupportTicket {
+  id          Int                   @id @default(autoincrement())
+  subject     String
+  description String
+  storeId     Int? /// @z.coerce.number()
+  store       Store?                @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  images      SupportTicketImages[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  @@index([subject])
+}
+
+model Category {
+  id     Int         @id @default(autoincrement())
+  nameId Int         @unique
+  name   TextContent @relation("category_name", fields: [nameId], references: [id])
+
+  icon    String?
+  store   Store   @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  storeId Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+  Product   Product[]
+
+  @@index([nameId, storeId])
+}
+
+model Icon {
+  id      Int      @id @default(autoincrement())
+  type    IconType
+  iconURL String
+}
+
+enum IconType {
+  RECIPE
+  CATEGORY
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+
+  nameId Int         @unique
+  name   TextContent @relation("product_name", fields: [nameId], references: [id])
+
+  descriptionId Int         @unique
+  description   TextContent @relation("product_description", fields: [descriptionId], references: [id])
+
+  slug String
+
+  isVisible Boolean @default(true)
+
+  storeId Int /// @z.coerce.number()
+  store   Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  categoryId Int? /// @z.coerce.number()
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  images  ProductImages[]
+  details DetailsOnProduct[]
+  prices  ProductPrices[]
+
+  @@unique([slug, storeId])
+}
+
+model ProductDetails {
+  id Int @id @default(autoincrement())
+
+  unitId  Int         @unique
+  unit    TextContent @relation("productDetails_unit", fields: [unitId], references: [id])
+  icon    String?
+  storeId Int?
+  store   Store?      @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  details DetailsOnProduct[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  @@unique([unitId, icon])
+}
+
+model ProductImages {
+  id        Int     @id @default(autoincrement())
+  imageURL  String
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  isDefault Boolean @default(false)
+  isVisible Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+}
+
+model SupportTicketImages {
+  id              Int           @id @default(autoincrement())
+  imageURL        String
+  supportTicketId Int
+  supportTicket   SupportTicket @relation(fields: [supportTicketId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+}
+
+model DetailsOnProduct {
+  productId        Int
+  product          Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productDetailsId Int
+  productDetails   ProductDetails @relation(fields: [productDetailsId], references: [id], onDelete: Cascade)
+
+  value String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  @@id([productId, productDetailsId])
+}
+
+model Recipe {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  iconId      Int
+  productId   Int
+
+  isVisible Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+}
+
+model TextContent {
+  id         Int      @id @default(autoincrement())
+  fallback   String
+  language   Language @relation(fields: [languageId], references: [id], onDelete: Cascade)
+  languageId Int
+
+  translations Translation[]
+
+  nameForStore        Store? @relation("store_name")
+  descriptionForStore Store? @relation("store_description")
+  sloganForStore      Store? @relation("store_slogan")
+
+  nameForProduct        Product? @relation("product_name")
+  descriptionForProduct Product? @relation("product_description")
+
+  unitForProductDetails ProductDetails? @relation("productDetails_unit")
+  nameForCategory       Category?       @relation("category_name")
+
+  @@index([languageId])
+}
+
+model Language {
+  id       Int    @id @default(autoincrement())
+  name     String
+  shortcut String @unique /// @z.custom().and(imports.ShortcutSchema)
+
+  textContents TextContent[]
+  translations Translation[]
+
+  @@index([shortcut])
+}
+
+model Translation {
+  id            Int         @id @default(autoincrement())
+  textContent   TextContent @relation(fields: [textContentId], references: [id], onDelete: Cascade)
+  textContentId Int
+  language      Language    @relation(fields: [languageId], references: [id], onDelete: Cascade)
+  languageId    Int
+  text          String
+
+  @@unique([textContentId, languageId])
+  @@index([textContentId, languageId])
+}
+
+enum Role {
+  USER
+  ADMIN
+  STORE
+  STORE_OWNER
+}

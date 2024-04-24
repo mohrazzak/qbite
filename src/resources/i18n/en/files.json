@@ -1,0 +1,10 @@
+{
+  "logoFile": {
+    "definite": "The logo",
+    "indefinite": "logo"
+  },
+  "productImages": {
+    "definite": "The product images",
+    "indefinite": "Product images"
+  }
+}

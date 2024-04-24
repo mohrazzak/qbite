@@ -1,0 +1,78 @@
+{
+  "StoreOwner": {
+    "definite": {
+      "plural": "المستخدمين",
+      "singular": "المستخدم"
+    },
+    "indefinite": { "plural": "مستخدمين", "singular": "مستخدم" }
+  },
+  "Store": {
+    "definite": {
+      "plural": "المتاجر",
+      "singular": "المتجر"
+    },
+    "indefinite": { "plural": "متاجر", "singular": "متجر" }
+  },
+  "Subscription": {
+    "definite": {
+      "plural": "الاشتراكات",
+      "singular": "الاشتراك"
+    },
+    "indefinite": { "plural": "اشتراكات", "singular": "اشتراك" }
+  },
+  "Translation": {
+    "definite": {
+      "plural": "الترجمات",
+      "singular": "الترجمة"
+    },
+    "indefinite": { "plural": "ترجمات", "singular": "ترجمة" }
+  },
+  "PlanVersion": {
+    "definite": {
+      "plural": "الخطط للاشتراكات",
+      "singular": "الخطة للاشتراك"
+    },
+    "indefinite": { "plural": "خطط اشتراك", "singular": "خطة اشتراك" }
+  },
+  "Category": {
+    "definite": {
+      "plural": "الأصناف",
+      "singular": "الصنف"
+    },
+    "indefinite": { "plural": "أصناف", "singular": "صنف" }
+  },
+  "Currency": {
+    "definite": {
+      "plural": "العملات",
+      "singular": "العملة"
+    },
+    "indefinite": { "plural": "عملات", "singular": "عملة" }
+  },
+  "Product": {
+    "definite": {
+      "plural": "المنتجات",
+      "singular": "المنتج"
+    },
+    "indefinite": { "plural": "منتجات", "singular": "منتج" }
+  },
+  "QrCode": {
+    "definite": {
+      "plural": "رموز الاستجابة السريعة",
+      "singular": "رمز الاستجابة السريعة"
+    },
+    "indefinite": {
+      "plural": "رموز استجابة سريعة",
+      "singular": "رمز استجابة سريعة"
+    }
+  },
+  "SupportTicket": {
+    "definite": {
+      "plural": "تذاكر الدعم",
+      "singular": "تذكرة الدعم"
+    },
+    "indefinite": {
+      "plural": "تذاكر دعم",
+      "singular": "تذكرة دعم"
+    }
+  }
+}
