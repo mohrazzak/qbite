@@ -21,7 +21,7 @@
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:pm2:dev": "npm run build && cross-env NODE_ENV=development pm2 start dist/main.js --name api-dev",
     "start:pm2:prod": "npm run build && cross-env NODE_ENV=production pm2 start dist/main.js --name api-prod",
-    "start:prod": "cross-env NODE_ENV=production nest start --watch"
+    "start:prod": "node dist/main"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -89,7 +89,6 @@
     "zod-i18n-map": "^2.20.0",
     "@nestjs/cli": "^10.0.0",
     "@swc/core": "^1.3.94"
-
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.0.0",
