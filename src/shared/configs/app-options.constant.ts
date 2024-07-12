@@ -54,13 +54,11 @@ export const redisOptions: CacheModuleAsyncOptions = {
   imports: [ConfigModule],
   useFactory: async (configService: ConfigService) => {
     const store = await redisStore({
-      socket: {
-        host: configService.getOrThrow('REDIS_HOST'),
-        port: +configService.getOrThrow('REDIS_PORT'),
-      },
-      password: configService.getOrThrow('REDIS_PASSWORD'),
-    });
+      // testing out
+      url: 'rediss://red-cl2vqs9novjs73b8s66g:H8LLRMGZ4HtCjBKrzHgvLf2ejD9phVVU@frankfurt-redis.render.com:6379',
 
+      password: configService.get<string>('REDIS_PASSWORD'),
+    });
     return {
       store: () => store,
     };
