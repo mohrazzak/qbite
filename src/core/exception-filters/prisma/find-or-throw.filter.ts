@@ -30,6 +30,7 @@ export class PrismaFindOrThrowFilter implements ExceptionFilter {
     const { day, hour, minute, month, second, year } = getSeparatedDate();
     const formattedDate = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
     try {
+      console.log(exception);
       const i18n = I18nContext.current<I18nTranslations>(host)!;
       const regex = /No (\w+) found/; // Regular expression to capture the entity
       const match = exception.message.match(regex);
