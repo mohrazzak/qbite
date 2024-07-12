@@ -123,7 +123,7 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3",
-    "cross-env": "^7.0.3",
+    "cross-env": "^7.0.3"
   },
   "prisma": {
     "seed": "dotenv -e src/core/configs/env/.env.development -- ts-node prisma/seed.ts"
