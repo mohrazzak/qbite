@@ -9,7 +9,7 @@ async function main() {
     where: { id: 1 },
     create: {
       name: 'English',
-      shortcut: 'EN',
+      shortcut: 'en',
     },
     update: {},
   });
@@ -18,7 +18,7 @@ async function main() {
     where: { id: 2 },
     create: {
       name: 'العربية',
-      shortcut: 'AR',
+      shortcut: 'ar',
     },
     update: {},
   });
