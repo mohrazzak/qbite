@@ -6,22 +6,22 @@
   "license": "SEE LICENSE.md",
   "author": "Mohammad Abdalrazzak",
   "scripts": {
+    "backup": "dotenv -e src/core/configs/env/.env.development -- ts-node prisma/backup.ts",
     "build": "nest build",
     "db:fresh:dev": "dotenv -e ./src/core/configs/env/.env.development -- npx prisma migrate reset",
     "db:fresh:prod": "dotenv -e ./src/core/configs/env/.env.production -- npx prisma db push --force-reset",
     "db:push:dev": "dotenv -e ./src/core/configs/env/.env.development npx prisma db push && npx prisma generate",
     "db:push:prod": "dotenv -e ./src/core/configs/env/.env.production -- npx prisma migrate dev && npx prisma generate",
+    "db:seed:prod": "dotenv -e src/core/configs/env/.env.production -- ts-node prisma/seed.ts",
     "postinstall": "patch-package",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "render": "cross-env NODE_ENV=development node dist/main.js",
+    "render": "cross-env NODE_ENV=production node dist/main.js",
     "start": "cross-env NODE_ENV=local nest start",
     "start:debug": "cross-env NODE_ENV=development nest start -b tsc --debug --watch",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:pm2:dev": "npm run build && cross-env NODE_ENV=development pm2 start dist/main.js --name api-dev",
     "start:pm2:prod": "npm run build && cross-env NODE_ENV=production pm2 start dist/main.js --name api-prod",
-    "start:prod": "cross-env NODE_ENV=production node dist/main",
-    "db:seed:prod": "dotenv -e src/core/configs/env/.env.production -- ts-node prisma/seed.ts",
-    "backup": "dotenv -e src/core/configs/env/.env.development -- ts-node prisma/backup.ts"
+    "start:prod": "cross-env NODE_ENV=production node dist/main"
   },
   "jest": {
     "collectCoverageFrom": [
