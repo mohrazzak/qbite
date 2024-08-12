@@ -33,7 +33,7 @@ generator zod {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://qbite_x1n7_user:d0MmhKJ1oer5EhCG69PzAUlYnKoy9Xcv@dpg-cq8gst4s1f4s73clgs40-a.frankfurt-postgres.render.com/qbite_x1n7"
+  url      = "postgresql://neondb_owner:7HFfnP4yGMxO@ep-frosty-meadow-a2xcesfo.eu-central-1.aws.neon.tech/neondb?sslmode=require"
 }
 
 model Store {
