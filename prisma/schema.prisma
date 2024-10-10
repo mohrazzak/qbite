@@ -33,6 +33,7 @@ generator zod {
 
 datasource db {
   provider = "postgresql"
+  // Just for the sake of dev
   url      = "postgresql://neondb_owner:7HFfnP4yGMxO@ep-frosty-meadow-a2xcesfo.eu-central-1.aws.neon.tech/neondb?sslmode=require"
 }
 
@@ -214,7 +215,7 @@ model Subscription {
   duration Int
 
   storeOwner    StoreOwner  @relation(fields: [storeOwnerId], references: [id], onDelete: Cascade)
-  planVersionId Int
+  planVersionId Int /// @z.number().int().default(1)
   planVersion   PlanVersion @relation(fields: [planVersionId], references: [id], onDelete: Cascade)
 
   createdAt DateTime  @default(now()) /// @z.date().default(new Date())

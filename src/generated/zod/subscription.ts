@@ -14,7 +14,7 @@ export const SubscriptionSchema = z.object({
   status: z.nativeEnum($Enums.SubscriptionStatus),
   price: z.number(),
   duration: z.number().int(),
-  planVersionId: z.number().int(),
+  planVersionId: z.number().int().default(1),
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
   deletedAt: z.date().nullable().default(new Date()).nullable(),
