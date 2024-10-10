@@ -67,7 +67,7 @@ export class PrismaForeignKeyFailedFilter implements ExceptionFilter {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         status: false,
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Internal Server Error, fire your backend developer',
+        message: 'Internal Server Error, Something strange happened',
         path: req.path,
         time: new Date().toISOString(),
         data: null,

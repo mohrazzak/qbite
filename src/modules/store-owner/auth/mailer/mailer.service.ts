@@ -33,6 +33,9 @@ export class MailerService {
       host: this.EM_HOST,
       port: this.EM_PORT,
       secure: true,
+      logger: true,
+      debug: true,
+      ignoreTLS: true,
       auth: {
         user: this.EM_USER,
         pass: this.EM_PASSWORD,
