@@ -71,13 +71,8 @@ docker build -t qbite-app .
 After building the image, run the container:
 
 ```bash
-docker run -d -p 5002:5002 --env-file .env.development qbite-app
+docker run qbite-app
 ```
-
-This command will:
-- Run the container in the background (`-d`).
-- Map port 5002 of your machine to port 5002 in the container (`-p 5002:5002`).
-- Use the environment variables from `.env.development` (`--env-file .env.development`).
 
 ### 3. Access the Application
 
