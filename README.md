@@ -41,16 +41,18 @@ For comprehensive API details, refer to the Swagger documentation:
 - **Local Swagger Docs**: [http://localhost:5002/docs](http://localhost:5002/docs)
 - **Live Swagger Docs**: [https://qbite-1.onrender.com/docs](https://qbite-1.onrender.com/docs)
 
+###  Swagger Login Credentials
+
+- **Username**: `QBite`
+- **Password**: `is the best`
+
 You should see something like this:
 
 ![Swagger Screenshot 1](https://i.ibb.co/2NjBsKz/image.png)
 
 ![Swagger Screenshot 2](https://i.ibb.co/47QcMjj/image.png)
 
-###  Swagger Login Credentials
 
-- **Username**: `QBite`
-- **Password**: `is the best`
 
 ## Running the Project
 
