@@ -1,7 +1,8 @@
 
+
 # QBite - QR-Code Restaurant Management System
 
-![QBite Logo](https://qbite-client-husseinhajghazals-projects.vercel.app/_next/image?url=%2Flogo%2F5.png&w=256&q=75) <!-- Add your project logo URL here -->
+![QBite Logo](https://qbite-client-husseinhajghazals-projects.vercel.app/_next/image?url=%2Flogo%2F5.png&w=256&q=75)
 
 ## Overview
 
@@ -11,6 +12,7 @@ QBite is an eco-friendly restaurant management system designed to streamline the
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [API Documentation](#api-documentation)
+- [Running the Project](#running-the-project)
 - [Contributing](#contributing)
 - [License](#license)
 - [Author](#author)
@@ -29,10 +31,56 @@ QBite is an eco-friendly restaurant management system designed to streamline the
 - **Cloud Services**: Firebase, AWS, Azure
 - **Development Tools**: Git, GitLab, GitHub, Jira, Ubuntu
 
-
 ## API Documentation
 
-For comprehensive API details, refer to me.
+For comprehensive API details, refer to the Swagger documentation:
+
+
+>
+>
+- **Local Swagger Docs**: [http://localhost:5002/docs](http://localhost:5002/docs)
+- **Live Swagger Docs**: [https://qbite-1.onrender.com/docs](https://qbite-1.onrender.com/docs)
+
+You should see something like this:
+
+![Swagger Screenshot 1](https://i.ibb.co/2NjBsKz/image.png)
+
+![Swagger Screenshot 2](https://i.ibb.co/47QcMjj/image.png)
+
+###  Swagger Login Credentials
+
+- **Username**: `QBite`
+- **Password**: `is the best`
+
+## Running the Project
+
+To get the project running locally, follow these steps:
+
+### 1. Build the Docker Image
+
+First, build the Docker image for the project:
+
+```bash
+docker build -t qbite-app .
+```
+
+### 2. Run the Docker Container
+
+After building the image, run the container:
+
+```bash
+docker run -d -p 5002:5002 --env-file .env.development qbite-app
+```
+
+This command will:
+- Run the container in the background (`-d`).
+- Map port 5002 of your machine to port 5002 in the container (`-p 5002:5002`).
+- Use the environment variables from `.env.development` (`--env-file .env.development`).
+
+### 3. Access the Application
+
+Once the container is running, access the Swagger API documentation by navigating to:
+
 
 ## Contributing
 
@@ -61,3 +109,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 **Mohammad Abdalrazzak**  
 [mohrazzak.tech](https://mohrazzak.tech) | [LinkedIn](https://linkedin.com/in/mohrazzak7) | [Email](mailto:mohrazzak7@gmail.com)
+
