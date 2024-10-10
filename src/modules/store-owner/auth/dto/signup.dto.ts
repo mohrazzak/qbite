@@ -8,7 +8,7 @@ export class SignupDto extends createZodDto(
     .merge(
       z.object({
         password: passwordSchema.optional(),
-        planVersionId: z.number(),
+        planVersionId: z.number().default(1),
         termsAndConditions: z.boolean().refine((value) => value === true, {
           params: { i18n: 'termsAndConditionsRequired' },
         }),
