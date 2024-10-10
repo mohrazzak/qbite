@@ -11,4 +11,4 @@ RUN npm ci
 
 COPY --chown=node:node . .
 CMD npx prisma generate \
-    && npm run start:prod
+    && npm run start:dev
